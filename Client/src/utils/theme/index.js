@@ -8,7 +8,8 @@ const lightTheme = createTheme({
       contrastText: "#1A202C",//gray.800
     },
     secondary: {
-      main: "#616161",
+      main: "#1e1e1e",//dark
+      contrastText:"#616161"//light
      
     },
     
@@ -23,9 +24,9 @@ const darkTheme = createTheme({
       contrastText: "#FFFFFFE6",//whiteAlpha.900
     },
     secondary: {
-      main: "#1e1e1e",
-     
-    },
+      main: "#1e1e1e",//dark
+      contrastText:"#616161"//light
+    }
   
   },
 });
