@@ -26,10 +26,11 @@ function App() {
               justifyContent: "center",
               alignItems: "flex-start",
               width: "100%",
-              height: "100vh",
+              height: "100%",
               backgroundColor:theme.palette.primary.main,
               color: theme.palette.primary.contrastText,
-              padding:"10px 30px 10px 30px",
+              padding:"10px 30px 30px 30px",
+              
             })]}>
                 <Grid2 sx={{
                     display: "flex",
@@ -41,8 +42,8 @@ function App() {
                   <Routes>
                         <Route  path="/" element={<Layout/>}>
                           <Route index element={<div>HOME</div>} />
-                          <Route path="/:username" element={<UserPage/>} />
-                          <Route path="/:username/post/:pid" element={<PostPage/>} />
+                            <Route path="/:username" element={<UserPage/>} />
+                            <Route path="/:username/post/:pid" element={<PostPage/>} />
 
                         </Route>
                     </Routes>

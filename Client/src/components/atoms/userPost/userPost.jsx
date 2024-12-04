@@ -1,15 +1,14 @@
-import { Avatar, Box, Grid2, Typography } from '@mui/material';
-import React from 'react';
+import { Avatar, avatarClasses, Box, Grid2, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AvatarUser from '/zuck-avatar.png';
-import verifiedLog from '/verified.png';
-import { centerNameAndVerify } from './style';
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import Post from '../post/Post';
+function UserPost({aboutPost,postImg,likeCount,repliesCount}) {
+  const [like,setLike] = useState(false)
 
-function UserPost() {
   return (
     <Link
-      style={{ textDecoration: 'none', color: 'inherit' }}
+      style={{ textDecoration: 'none', color: 'inherit',width:"100%" }}
       to={'/markZuckerberg/post/1'}
     >
       <Grid2
@@ -37,81 +36,48 @@ function UserPost() {
           />
           <Box sx={{position:"relative",width:"100%"}}>
                          <Avatar
-							size='xs'
-							name='John doe'
-							src={AvatarUser}
-							
-							sx={{
-                                position:"absolute",
-                                top:"-5px",
-                                left:"12px",
-                                 height:"25px",
-                                width:"25px",
-                                borderRadius:"50%",
-                               
-                                
-
-                            }}
-						/>
-						<Avatar
-							size='xs'
-							name='John doe'
-							src={AvatarUser}
-                            sx={{
-                                position:"absolute",
-                                bottom:0,
-                                right:"0px",
-                                 height:"25px",
-                                width:"25px",
-                                borderRadius:"50%"
-
-                            }}
-						/>
-						<Avatar
-							
-							name='John doe'
-							src={AvatarUser}
-                            sx={{
-                                position: "absolute",
-                                bottom: "0px",
-                                left:"0px",
-                                height:"25px",
-                                width:"25px",
-                                borderRadius:"50%"
-                            }}
-						/>
+                            size='xs'
+                            name='John doe'
+                            src="https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png"
+                              sx={{
+                                    position:"absolute",
+                                    top:"0px",
+                                    bottom:"0px",
+                                    left:"12px",
+                                    height:"20px",
+                                    width:"20px",
+                                    borderRadius:"50%",
+                                          }}
+                              />
+                              <Avatar
+                                size='xs'
+                                name='John doe'
+                                src="https://img.freepik.com/premium-photo/stylish-man-flat-vector-profile-picture-ai-generated_606187-312.jpg?w=2000"
+                                sx={{
+                                      position:"absolute",
+                                      bottom:0,
+                                      right:"0px",
+                                      height:"20px",
+                                      width:"20px",
+                                      borderRadius:"50%"
+                                    }}
+                                />
+                              <Avatar 
+                                name='John doe'
+                                src={"https://img.freepik.com/premium-vector/vector-illustration-young-man-with-beard-mustache-cartoon-style_1142-67946.jpg"}
+                                sx={{
+                                    position: "absolute",
+                                    bottom: "0px",
+                                    left:"0px",
+                                    height:"20px",
+                                    width:"20px",
+                                    borderRadius:"50%"
+                                    }}
+                              />
           </Box>
         </Box>
         {/* Right Side */}
-        <Box width={'100%'} height={'100%'}>
-          {/* Name and three dot container */}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Box sx={centerNameAndVerify}>
-              <Typography fontSize={'14px'} fontWeight={'bold'}>
-                Mark Zuckerberg
-              </Typography>
-              <Box sx={{ width: '20px', height: '20px' }}>
-                <img
-                  width={'100%'}
-                  height={'full'}
-                  src={verifiedLog}
-                  alt="verified"
-                />
-              </Box>
-            </Box>
-            <MoreHorizOutlinedIcon />
-          </Box>
-          {/* About post container */}
-          <Box sx={{ height: '100px', backgroundColor: 'white' }}>
-            <Typography variant="body2">Let's talk about threads</Typography>
-          </Box>
-        </Box>
+       <Post like={like} setLike={setLike} aboutPost={aboutPost} postImg={postImg} likeCount={likeCount} repliesCount={repliesCount}/>
       </Grid2>
     </Link>
   );

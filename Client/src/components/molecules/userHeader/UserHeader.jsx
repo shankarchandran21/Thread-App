@@ -60,7 +60,7 @@ function UserHeader() {
                                 })]} variant='caption'>threads.net</Typography>
                             </Box>
                         </Box>
-                        <Avatar sx={{height:"80px",width:"80px"}} alt="Mark Zuckerberg" src={AvatarUser} />
+                        <Avatar  sx={{height:"80px",width:"80px"}} alt="Mark Zuckerberg" src={AvatarUser} />
                     </Box>
                     <Box>
                         <Typography>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</Typography>
