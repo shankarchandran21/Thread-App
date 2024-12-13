@@ -43,6 +43,7 @@ const signupUser = async (req,res)=>{
                 userName:newUser.userName,
             })
 
+           
         }else{
             res.status(400).json({message:"Invalid user data"})
         }
@@ -96,7 +97,9 @@ const followUnFollowUser = async(req,res)=>{
      
         const userToModify = await User.findById(id)
         const currentUser = await User.findById(req.user._id)
+
         if(id === req.user._id.toString()) return res.status(400).json({message:"You can't follow and unFollow yourself"})
+            
             if (!userToModify || !currentUser) return res.status(400).json({ error: "User not found" });
             const isFollowing = currentUser.following.includes(id)
             if(isFollowing){
