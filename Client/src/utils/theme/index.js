@@ -12,6 +12,10 @@ const lightTheme = createTheme({
       contrastText:"#616161"//light
      
     },
+    tertiary: {
+      main: "#fff",
+      contrastText:"#000",
+    },
     
   },
 });
@@ -26,7 +30,11 @@ const darkTheme = createTheme({
     secondary: {
       main: "#1e1e1e",//dark
       contrastText:"#616161"//light
-    }
+    },
+    tertiary: {
+      main: "#1e1e1e",
+      contrastText:"#fff",
+    },
   
   },
 });
