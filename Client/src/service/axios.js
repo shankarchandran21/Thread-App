@@ -14,6 +14,7 @@ export const setEnqueueSnackbarFunction = (enqueueSnackbar) => {
 
 const Api = axios.create({
   baseURL: 'http://localhost:5000',
+  withCredentials:true
 });
 
 Api.interceptors.request.use(
@@ -58,7 +59,7 @@ Api.interceptors.response.use(
       });
     }
     if (err?.response?.status === 401) {
-      navigateFunction('/login');
+      navigateFunction('/auth');
     }
     return Promise.reject(err);
   }

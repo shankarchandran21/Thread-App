@@ -9,22 +9,34 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import {loginPageApi} from "./api"
 import ErrorSnackbar from "../customsnackbar/errorSnackbar"
 import { useSnackbar } from 'notistack';
+import {userAuth} from "../../../features/authPage/authSlice"
+import { useDispatch } from 'react-redux';
+import SuccessSnackbar from '../customsnackbar/successSnackbar';
 
 function Login({themeMode,setAuthPageSetup}) {
         const { enqueueSnackbar } = useSnackbar();
         const [showPassword, setShowPassword] = useState(false);
+        const dispatch = useDispatch()
           const handleClickShowPassword = () => setShowPassword((show) => !show);
           const {handleSubmit,register,formState: { errors },} = useForm({
                                         resolver: yupResolver(schema()),
                                         });
           const navigate = useNavigate()
-           const {loginApi} = loginPageApi                             
+           const {loginApi} = loginPageApi     
+
     const handleSubmitLogin = async (data)=>{
           try {
             const res = await loginApi(data)
             if(res?.status === 200){
-              localStorage.setItem("user-threads",JSON.stringify(res.data))
-               navigate("/home")
+              enqueueSnackbar("Successfully Login", {
+                variant: "success",
+                content: (key, message) => (
+                  <SuccessSnackbar id={key} message={message} allowDownload={true} />
+                ),
+              });
+              dispatch(userAuth(res.data))
+               navigate("/")
+             
             }
           } catch (err) {
             enqueueSnackbar(err.message, {

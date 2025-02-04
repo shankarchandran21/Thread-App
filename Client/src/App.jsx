@@ -39,14 +39,15 @@ function App() {
               backgroundColor:theme.palette.primary.main,
               color: theme.palette.primary.contrastText,
               padding:"10px 30px 30px 30px",
-              minHeight:"100vh"
+              minHeight:"100vh",
+              position: "relative",
             })]}>
                 <Grid2 sx={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "flex-center",
-                    width: "650px",
-                    
+                    width: "700px",
+                    height: "100%",
                 }}>
                   <RoutesComponents/>
                 </Grid2>

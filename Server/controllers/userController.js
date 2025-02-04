@@ -1,6 +1,7 @@
 import User from "../models/userModels.js"
 import bcrypt from "bcryptjs"
 import getTokenAndSetCookies from "../utils/helper/getTokenAndSetCookies.js"
+import { v2 as cloudinary } from 'cloudinary';
 
 
 const getUserProfile = async(req,res)=>{
@@ -9,6 +10,7 @@ const getUserProfile = async(req,res)=>{
 
     try {
         const user = await User.findOne({userName}).select("-password").select("-updatedAt")
+    
         if(!user) return res.status(400).json({message:`user not found`})
             res.status(200).json(user)
     } catch (err) {
@@ -58,7 +60,7 @@ const signupUser = async (req,res)=>{
 
 
 const loginUser = async (req, res) => {
-
+  
     try {
         const {userName,password} = req.body
 
@@ -72,7 +74,11 @@ const loginUser = async (req, res) => {
                 _id:user._id,
                 name:user.name,
                 email:user.email,
-                userName:user.userName
+                userName:user.userName,
+                profilePic:user.profilePic,
+                followers:user.followers,
+                following:user.following,
+                bio:user.bio
             })
     } catch (err) {
         res.status(500).json({message: err.message})
@@ -123,7 +129,8 @@ const followUnFollowUser = async(req,res)=>{
 }
 
 const updateUser = async (req, res) => {
-    const {name,email,userName,password,profilePic,bio} = req.body
+    const {name,email,userName,password,bio} = req.body
+    let {profilePic} = req.body
     const userId = req.user._id
     try {
         let user = await User.findById(userId)
@@ -137,6 +144,15 @@ const updateUser = async (req, res) => {
             const hashPassword = await bcrypt.hash(password,salt)
             user.password = hashPassword
         }
+
+        if(profilePic){
+            if(user.profilePic){
+               await cloudinary.uploader.destroy(user.profilePic.split('/').pop().split(".")[0]) 
+            }
+            const uploadRes = await cloudinary.uploader.upload(profilePic);
+           profilePic = uploadRes.secure_url
+          
+        }
         user.name = name || user.name 
         user.userName = userName || user.userName
         user.email = email || user.email
@@ -144,6 +160,7 @@ const updateUser = async (req, res) => {
         user.bio = bio || user.bio
 
         user =  await user.save()
+        user.password = null
         res.status(200).json({message:"Profile updated successfully",user})
 
     } catch (err) {
