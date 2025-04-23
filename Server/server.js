@@ -1,38 +1,26 @@
 import express from 'express';
-import multer from 'multer';
-import dotenv from "dotenv";
-import connectDB from './db/connectDB.js';
-import cookieParser from 'cookie-parser';
-import userRoutes from "./routes/userRoutes.js";
-import postRoutes from "./routes/PostRoutes.js";
-import cors from 'cors';
-import { v2 as cloudinary } from 'cloudinary';
-
-dotenv.config();
+import authRouter from "./routes/auth.route.js"
+import searchRoutes from "./routes/search.route.js"
+import { ENV_VARS } from './config/envVars.js';
+import { connectDB } from './config/db.js';
+import movieRouter from "./routes/movie.route.js"
+import cookieParser from "cookie-parser"
+import { protectRoute } from './middleware/productRoute.js';
 const app = express();
-const PORT = process.env.PORT;
+const PORT = ENV_VARS.PORT
 
-// Multer Storage (No Limit)
-const storage = multer.memoryStorage();
-const upload = multer({ storage }); 
+app.use(express.json()) // it's allows you parse body json
+app.use(cookieParser()) // it's allows to use cookies for jwt token
+app.use("/api/v1/auth",authRouter)
+app.use("/api/v1/movie",protectRoute,movieRouter)
+app.use("/api/v1/search", protectRoute, searchRoutes);
+app.get("", (req, res) => {
+    res.send("Server is running")
+})
 
-// Cloudinary Config
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
+app.listen(PORT,()=>{
+    console.log(`Server started at http://localhost:${PORT}`)
+    connectDB()
+})
 
-// Middleware with Increased Limits
-app.use(upload.any());
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ extended: true, limit: '100mb' }));
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-app.use(cookieParser());
 
-// Routes
-app.use("/api/users", userRoutes);
-app.use("/api/posts", postRoutes);
-
-// Server
-app.listen(PORT, connectDB);
